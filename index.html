@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanon Fukuda | Web Designer Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            lightBg: '#FAFAFA',
+                            lightCard: '#FFFFFF',
+                            darkBg: '#121619',
+                            darkCard: '#1A2024',
+                            mainText: '#2D3748',
+                            darkText: '#E2E8F0',
+                            accent: '#3B7A77',       /* ブルーグリーングレー */
+                            accentHover: '#2C5E5B',
+                            accentLight: '#E6F0F0',
+                            lightGray: '#F0F4F4',
+                            darkBorder: '#2A343A'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans JP"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Animation classes for scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero subtle animated background */
+        .hero-bg-pattern {
+            background-image: radial-gradient(rgba(59, 122, 119, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark .hero-bg-pattern {
+            background-image: radial-gradient(rgba(59, 122, 119, 0.25) 1px, transparent 1px);
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .dark .glass-nav {
+            background: rgba(18, 22, 25, 0.85);
+            backdrop-filter: blur(12px);
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(135deg, #2C5E5B 0%, #3B7A77 50%, #5B9E9A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .text-gradient {
+            background: linear-gradient(135deg, #74BDB8 0%, #3B7A77 50%, #A3DAD6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-brand-lightBg text-brand-mainText dark:bg-brand-darkBg dark:text-brand-darkText min-h-screen flex flex-col selection:bg-brand-accent selection:text-white">
+
+    <!-- Header / Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav border-b border-gray-200/60 dark:border-brand-darkBorder transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="text-xl font-bold tracking-tight flex items-center gap-2 group">
+                <span class="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform duration-300">K</span>
+                <span class="tracking-widest uppercase text-sm font-semibold">Kanon Fukuda</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#about" class="hover:text-brand-accent transition-colors">Who I Am</a>
+                <a href="#works" class="hover:text-brand-accent transition-colors">Works</a>
+                <a href="#skills" class="hover:text-brand-accent transition-colors">Skills</a>
+                <a href="#contact" class="px-4 py-2 rounded-lg bg-brand-accent/10 text-brand-accent dark:bg-brand-accent/20 hover:bg-brand-accent hover:text-white dark:hover:bg-brand-accent dark:hover:text-white transition-all duration-300">Contact</a>
+                
+                <!-- Dark Mode Toggle Button -->
+                <button id="theme-toggle" aria-label="Toggle theme" class="p-2.5 rounded-full bg-gray-200/70 dark:bg-brand-darkCard text-gray-700 dark:text-gray-200 hover:bg-brand-accentLight dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none">
+                    <i id="theme-toggle-dark-icon" class="fas font-solid fa-moon text-base"></i>
+                    <i id="theme-toggle-light-icon" class="fas font-solid fa-sun text-base hidden text-amber-400"></i>
+                </button>
+            </nav>
+
+            <!-- Mobile menu button -->
+            <div class="flex items-center gap-3 md:hidden">
+                <button id="theme-toggle-mobile" aria-label="Toggle theme mobile" class="p-2 rounded-full bg-gray-200/70 dark:bg-brand-darkCard text-gray-700 dark:text-gray-200">
+                    <i id="theme-toggle-dark-icon-m" class="fas fa-moon text-sm"></i>
+                    <i id="theme-toggle-light-icon-m" class="fas fa-sun text-sm hidden text-amber-400"></i>
+                </button>
+                <button id="mobile-menu-btn" aria-label="Open Navigation Menu" class="p-2 rounded-lg text-gray-600 dark:text-gray-300 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-brand-darkCard border-b border-gray-200 dark:border-brand-darkBorder px-6 py-6 transition-all">
+            <div class="flex flex-col gap-4 text-base font-medium">
+                <a href="#about" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Who I Am</a>
+                <a href="#works" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Works</a>
+                <a href="#skills" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Skills</a>
+                <a href="#contact" class="mobile-nav-link py-2">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-20">
+
+        <!-- 1. Hero Section -->
+        <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden hero-bg-pattern px-4 sm:px-6 lg:px-8 py-20">
+            <!-- Background Decorative Glowing Orbs -->
+            <div class="absolute top-1/4 left-10 w-72 h-72 bg-brand-accent/20 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-brand-accent/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-4xl mx-auto text-center relative z-10 reveal active">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-accent/10 text-brand-accent dark:bg-brand-accent/20 text-xs sm:text-sm font-semibold tracking-wider uppercase mb-6 border border-brand-accent/20">
+                    <span class="w-2 h-2 rounded-full bg-brand-accent animate-ping"></span>
+                    Web Designer Portfolio
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+                    <span class="block">Colors Logic,</span>
+                    <span class="text-gradient">Designs Magic.</span>
+                </h1>
+
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-normal leading-relaxed mb-10">
+                    色彩検定１級の知識と確かなコーディング技術で、<br class="hidden sm:inline">企業の想いを「伝わる」形に。
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#works" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-accent text-white font-medium hover:bg-brand-accentHover transition-all duration-300 shadow-lg shadow-brand-accent/25 hover:shadow-brand-accent/40 hover:-translate-y-0.5 text-center">
+                        実績を見る <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                    </a>
+                    <a href="#contact" onclick="scrollToContact(event)" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-brand-darkCard text-brand-mainText dark:text-brand-darkText border border-gray-200 dark:border-brand-darkBorder font-medium hover:border-brand-accent dark:hover:border-brand-accent hover:text-brand-accent transition-all duration-300 text-center shadow-sm">
+                        お問い合わせ
+                    </a>
+                </div>
+            </div>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-brand-darkCard border-b border-gray-200 dark:border-brand-darkBorder px-6 py-6 transition-all">
+            <div class="flex flex-col gap-4 text-base font-medium">
+                <a href="#about" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Who I Am</a>
+                <a href="#works" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Works</a>
+                <a href="#skills" class="mobile-nav-link py-2 border-b border-gray-100 dark:border-gray-800">Skills</a>
+                <a href="#contact" onclick="scrollToContact(event)" class="mobile-nav-link py-2">Contact</a>
+            </div>
+        </div>
+            </a>
+        </section>
+
+        <!-- 2. About Section (Who I Am) -->
+        <section id="about" class="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-brand-darkCard transition-colors duration-300 border-y border-gray-100 dark:border-brand-darkBorder">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Who I Am</h2>
+                    <p class="text-sm text-brand-accent font-medium tracking-widest uppercase mt-2">自己紹介</p>
+                </div>
+
+                <div class="grid md:grid-cols-12 gap-12 items-center">
+                    <!-- Profile Image (Female SVG Avatar in Circle) -->
+                    <div class="md:col-span-5 flex justify-center reveal">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-brand-accent to-emerald-600 opacity-70 blur group-hover:opacity-100 transition duration-500"></div>
+                            <div class="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden bg-brand-lightGray dark:bg-gray-800 p-2 border-4 border-white dark:border-brand-darkCard shadow-2xl flex items-center justify-center">
+                                <!-- Clean Casual Female SVG Illustration -->
+                                <svg class="w-full h-full text-brand-accent" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="100" cy="100" r="95" fill="#EBF3F3"/>
+                                    <!-- Hair Back -->
+                                    <path d="M50 90C50 60 70 40 100 40C130 40 150 60 150 90V130C150 145 140 155 130 155H70C60 155 50 145 50 130V90Z" fill="#3A3D40"/>
+                                    <!-- Face -->
+                                    <ellipse cx="100" cy="100" rx="36" ry="42" fill="#FDE2D1"/>
+                                    <!-- Neck -->
+                                    <rect x="92" y="135" width="16" height="20" fill="#F0CEB9"/>
+                                    <!-- Clothes -->
+                                    <path d="M60 185C60 155 75 148 100 148C125 148 140 155 140 185V200H60V185Z" fill="#3B7A77"/>
+                                    <path d="M88 148L100 162L112 148" stroke="#FFFFFF" stroke-width="3"/>
+                                    <!-- Hair Front Bangs -->
+                                    <path d="M64 90C64 70 78 52 100 52C122 52 136 70 136 90C136 95 130 80 118 78C106 76 100 84 92 78C84 72 70 82 64 90Z" fill="#3A3D40"/>
+                                    <!-- Glasses -->
+                                    <circle cx="84" cy="98" r="11" stroke="#222222" stroke-width="2.5" fill="none"/>
+                                    <circle cx="116" cy="98" r="11" stroke="#222222" stroke-width="2.5" fill="none"/>
+                                    <line x1="95" y1="98" x2="105" y2="98" stroke="#222222" stroke-width="2.5"/>
+                                    <!-- Eyes -->
+                                    <circle cx="84" cy="98" r="3" fill="#222222"/>
+                                    <circle cx="116" cy="98" r="3" fill="#222222"/>
+                                    <!-- Cheeks -->
+                                    <ellipse cx="76" cy="106" rx="5" ry="3" fill="#FFB4B4" opacity="0.6"/>
+                                    <ellipse cx="124" cy="106" rx="5" ry="3" fill="#FFB4B4" opacity="0.6"/>
+                                    <!-- Smile -->
+                                    <path d="M93 114C93 114 97 118 100 118C103 118 107 114 107 114" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Text -->
+                    <div class="md:col-span-7 space-y-5 reveal">
+                        <div class="inline-block px-3 py-1 bg-brand-lightGray dark:bg-gray-800 rounded-md text-xs font-semibold text-brand-accent">
+                            Web Designer / Frontend Developer
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold">
+                            はじめまして、<br class="sm:hidden">Webデザイナーの<span class="text-brand-accent">福田花音</span>です。
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Web制作において最も大切にしているのは「見た目の美しさ」と「ロジックに裏付けられた機能性」の融合です。
+                        </p>
+                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            <strong class="text-brand-mainText dark:text-brand-darkText font-semibold">色彩検定１級</strong>で培った理論的な色彩設計（カラーロジック）と、最新のコーディング技術を活用し、ブランドの魅力を最大限に引き出すWebサイトをお届けします。ただ綺麗に飾るだけでなく、ユーザーの視線誘導や購買意欲を促す緻密なデザインを提案いたします。
+                        </p>
+
+                        <!-- Quick Badges -->
+                        <div class="pt-4 flex flex-wrap gap-3">
+                            <span class="px-3.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs font-medium bg-gray-50 dark:bg-gray-800 flex items-center gap-1.5">
+                                <i class="fas fa-certificate text-brand-accent"></i> 色彩検定1級 保持
+                            </span>
+                            <span class="px-3.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs font-medium bg-gray-50 dark:bg-gray-800 flex items-center gap-1.5">
+                                <i class="fas fa-laptop-code text-brand-accent"></i> UI/UX & Responsive Design
+                            </span>
+                            <span class="px-3.5 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-xs font-medium bg-gray-50 dark:bg-gray-800 flex items-center gap-1.5">
+                                <i class="fas fa-heart text-brand-accent"></i> 細部へのこだわり
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Works Section -->
+        <section id="works" class="py-24 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Works</h2>
+                    <p class="text-sm text-brand-accent font-medium tracking-widest uppercase mt-2">制作実績</p>
+                </div>
+
+                <!-- Works Cards Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Work Item 1 -->
+                    <div class="group bg-white dark:bg-brand-darkCard rounded-2xl overflow-hidden border border-gray-200/80 dark:border-brand-darkBorder hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 reveal">
+                        <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <!-- Placeholder Graphic for Work 1 -->
+                            <div class="w-full h-full bg-gradient-to-tr from-teal-800 to-slate-700 p-6 flex flex-col justify-between text-white group-hover:scale-105 transition-transform duration-500">
+                                <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded w-max backdrop-blur-sm">Corporate Site</span>
+                                <div>
+                                    <p class="text-xs text-teal-200">Logic & Trust Color System</p>
+                                    <h4 class="text-lg font-bold">Tech Innovators Corp.</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2 group-hover:text-brand-accent transition-colors">IT企業 コーポレートサイトリニューアル</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                                信頼感を与えるブルーと知的なグレーを基調に、企業の先端技術力と誠実さを表現したレスポンシブWebサイト。
+                            </p>
+                            <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">UI/UX Design</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">HTML/CSS</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">色彩設計</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 2 -->
+                    <div class="group bg-white dark:bg-brand-darkCard rounded-2xl overflow-hidden border border-gray-200/80 dark:border-brand-darkBorder hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 reveal">
+                        <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <!-- Placeholder Graphic for Work 2 -->
+                            <div class="w-full h-full bg-gradient-to-tr from-amber-700 to-amber-900 p-6 flex flex-col justify-between text-white group-hover:scale-105 transition-transform duration-500">
+                                <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded w-max backdrop-blur-sm">EC Brand Site</span>
+                                <div>
+                                    <p class="text-xs text-amber-200">Warm & Organic Palette</p>
+                                    <h4 class="text-lg font-bold">Botanical Craft Coffee</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2 group-hover:text-brand-accent transition-colors">オーガニックコーヒー ブランドECサイト</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                                自然由来の温かみを感じさせる配色構成。購買動線を意識した直感的なナビゲーションを設計。
+                            </p>
+                            <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">EC Design</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">Branding</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Item 3 -->
+                    <div class="group bg-white dark:bg-brand-darkCard rounded-2xl overflow-hidden border border-gray-200/80 dark:border-brand-darkBorder hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 reveal">
+                        <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <!-- Placeholder Graphic for Work 3 -->
+                            <div class="w-full h-full bg-gradient-to-tr from-slate-800 to-cyan-900 p-6 flex flex-col justify-between text-white group-hover:scale-105 transition-transform duration-500">
+                                <span class="text-xs font-semibold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded w-max backdrop-blur-sm">LP Design</span>
+                                <div>
+                                    <p class="text-xs text-cyan-200">High Conversion Contrast</p>
+                                    <h4 class="text-lg font-bold">SaaS Analytics Landing Page</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2 group-hover:text-brand-accent transition-colors">SaaSツール サービス紹介LP</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
+                                補色対比を活用したコンバージョン率向上のためのCTA配置。スマートで現代的なアニメーションを付与。
+                            </p>
+                            <div class="flex flex-wrap gap-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">Landing Page</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">Tailwind CSS</span>
+                                <span class="px-2.5 py-1 bg-gray-100 dark:bg-gray-800 rounded">Animation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Skills & Strengths Section -->
+        <section id="skills" class="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-brand-darkCard border-t border-gray-100 dark:border-brand-darkBorder transition-colors duration-300">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">Skills & Strengths</h2>
+                    <p class="text-sm text-brand-accent font-medium tracking-widest uppercase mt-2">スキル・強み</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Skill 1 -->
+                    <div class="p-6 rounded-2xl bg-brand-lightBg dark:bg-brand-darkBg border border-gray-200/60 dark:border-brand-darkBorder reveal">
+                        <div class="w-12 h-12 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">色彩理論・カラーロジック</h3>
+                        <p class="text-xs text-brand-accent font-semibold mb-3">AFT色彩検定1級 取得</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            感覚だけに頼らない理論に基づいた配色提案。視線誘導、可読性向上、ブランドイマジネーションの確立をコントロールします。
+                        </p>
+                    </div>
+
+                    <!-- Skill 2 -->
+                    <div class="p-6 rounded-2xl bg-brand-lightBg dark:bg-brand-darkBg border border-gray-200/60 dark:border-brand-darkBorder reveal">
+                        <div class="w-12 h-12 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fas fa-pen-nib"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">UI / UX Design</h3>
+                        <p class="text-xs text-brand-accent font-semibold mb-3">Figma / Photoshop / Illustrator</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            ワイヤーフレーム作成からプロトタイプ制作まで対応。ユーザーの直感的な操作を妨げないストレスフリーなインターフェースを設計します。
+                        </p>
+                    </div>
+
+                    <!-- Skill 3 -->
+                    <div class="p-6 rounded-2xl bg-brand-lightBg dark:bg-brand-darkBg border border-gray-200/60 dark:border-brand-darkBorder reveal">
+                        <div class="w-12 h-12 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center text-xl font-bold mb-4">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">Web Coding</h3>
+                        <p class="text-xs text-brand-accent font-semibold mb-3">HTML5 / CSS3 / JavaScript / Tailwind</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            セマンティックで保守性の高いクリーンなコード。スマートフォン・タブレット各種端末に対応した完全レスポンシブ実装が得意です。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Contact Section (get in touch) -->
+        <section id="contact" class="py-24 px-4 sm:px-6 lg:px-8 relative">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight">get in touch</h2>
+                    <p class="text-sm text-brand-accent font-medium tracking-widest uppercase mt-2">お問い合わせ</p>
+                    <p class="text-gray-600 dark:text-gray-300 mt-6 leading-relaxed">
+                        制作のご依頼、お見積り、その他ご相談はお気軽にどうぞ。<br>
+                        ２営業日以内に返信いたします。
+                    </p>
+                </div>
+
+                <!-- Contact Form Card -->
+                <div class="bg-white dark:bg-brand-darkCard rounded-2xl p-6 sm:p-10 shadow-lg border border-gray-200/80 dark:border-brand-darkBorder transition-colors duration-300 reveal">
+                    <form id="contact-form" class="space-y-6" onsubmit="handleFormSubmit(event)">
+                        <!-- Name Field -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">
+                                お名前 <span class="text-brand-accent">*</span>
+                            </label>
+                            <input type="text" id="name" name="name" required placeholder="山田 太郎" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-brand-accent focus:border-transparent outline-none transition-all">
+                        </div>
+
+                        <!-- Email Field -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">
+                                メールアドレス <span class="text-brand-accent">*</span>
+                            </label>
+                            <input type="email" id="email" name="email" required placeholder="example@email.com" class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-brand-accent focus:border-transparent outline-none transition-all">
+                        </div>
+
+                        <!-- Message Field -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">
+                                お問合せ内容 <span class="text-brand-accent">*</span>
+                            </label>
+                            <textarea id="message" name="message" rows="5" required placeholder="ご相談内容や制作概要などをご記入ください..." class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-transparent focus:ring-2 focus:ring-brand-accent focus:border-transparent outline-none transition-all"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl bg-brand-accent text-white font-medium hover:bg-brand-accentHover transition-all duration-300 shadow-md flex items-center justify-center gap-2">
+                            <span>送信する</span>
+                            <i class="fas fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+
+                    <!-- Success Message Container (Hidden by default) -->
+                    <div id="form-success" class="hidden text-center py-10 animate-fade-in">
+                        <div class="w-16 h-16 bg-brand-accent/15 text-brand-accent rounded-full flex items-center justify-center mx-auto mb-5 text-2xl shadow-inner">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-brand-mainText dark:text-brand-darkText">お問い合わせありがとうございます</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed max-w-md mx-auto mb-6">
+                            メッセージの送信が完了いたしました。<br>
+                            内容を確認の上、２営業日以内に折り返しご連絡いたします。
+                        </p>
+                        <button onclick="resetContactForm()" class="px-6 py-2.5 rounded-lg border border-brand-accent text-brand-accent hover:bg-brand-accent hover:text-white text-xs font-medium transition-all duration-300">
+                            もう一度送信する
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SNS Links Section -->
+                <div class="mt-16 text-center reveal">
+                    <p class="text-xs uppercase tracking-widest text-gray-400 mb-4 font-semibold">日々のデザイン発信中</p>
+                    <div class="flex items-center justify-center gap-6">
+                        <!-- X (Twitter) -->
+                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)" class="w-12 h-12 rounded-full bg-white dark:bg-brand-darkCard border border-gray-200 dark:border-brand-darkBorder flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-brand-accent dark:hover:text-brand-accent hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-brands fa-x-twitter text-lg"></i>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-12 h-12 rounded-full bg-white dark:bg-brand-darkCard border border-gray-200 dark:border-brand-darkBorder flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-brand-accent dark:hover:text-brand-accent hover:scale-110 transition-all duration-300 shadow-sm">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 border-t border-gray-200/60 dark:border-brand-darkBorder text-center text-xs text-gray-500 dark:text-gray-400">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; <span id="year"></span> Kanon Fukuda. All rights reserved.</p>
+            <a href="#" class="hover:text-brand-accent transition-colors flex items-center gap-1">
+                TOPへ戻る <i class="fas fa-arrow-up text-[10px]"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth Scroll to Contact Function with auto-focus
+        function scrollToContact(e) {
+            e.preventDefault();
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+                // Focus on the name input field after smooth scroll completes
+                setTimeout(() => {
+                    const nameInput = document.getElementById('name');
+                    if (nameInput) nameInput.focus({ preventScroll: true });
+                }, 600);
+            }
+        }
+
+        // Dark / Light Theme Switching Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        const themeToggleBtnM = document.getElementById('theme-toggle-mobile');
+        const themeToggleDarkIconM = document.getElementById('theme-toggle-dark-icon-m');
+        const themeToggleLightIconM = document.getElementById('theme-toggle-light-icon-m');
+
+        function updateThemeIcons(isDark) {
+            if (isDark) {
+                themeToggleDarkIcon.classList.add('hidden');
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIconM.classList.add('hidden');
+                themeToggleLightIconM.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIconM.classList.remove('hidden');
+                themeToggleLightIconM.classList.add('hidden');
+            }
+        }
+
+        // Check system preference or saved localStorage
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcons(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcons(false);
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+                updateThemeIcons(false);
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+                updateThemeIcons(true);
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeToggleBtnM.addEventListener('click', toggleTheme);
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Scroll Animations (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.15,
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Form Submit Simulation
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const submitBtn = document.getElementById('submit-btn');
+            const form = document.getElementById('contact-form');
+            const successBox = document.getElementById('form-success');
+
+            // Button loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> 送信中...';
+
+            setTimeout(() => {
+                form.classList.add('hidden');
+                successBox.classList.remove('hidden');
+            }, 1000);
+        }
+
+        function resetContactForm() {
+            const submitBtn = document.getElementById('submit-btn');
+            const form = document.getElementById('contact-form');
+            const successBox = document.getElementById('form-success');
+
+            form.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>送信する</span><i class="fas fa-paper-plane text-xs"></i>';
+            
+            successBox.classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
